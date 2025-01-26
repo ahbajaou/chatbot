@@ -10,3 +10,29 @@
   justify-content: center; */
   /* background-color: aqua; */
 }
+
+.dot-1,
+.dot-2,
+.dot-3 {
+  animation: blink 1s infinite;
+}
+
+.dot-2 {
+  animation-delay: 0.2s;
+}
+
+.dot-3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -9,15 +9,15 @@ const ChatBox = () => {
     setMessages([...messages, { id: Date.now(), text: message }]);
   };
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <div className="flex-grow overflow-y-auto p-4">
-        <MessageList messages={messages} />
+    <div className="flex flex-col h-screen m-5" style={{}}>
+      <div style={{background:"rgba(217, 217, 217, 1)",borderRadius:"5px"}} className="h-14">
       </div>
-      <div className="p-4 border-t bg-white">
-        <MessageInput onSendMessage={handleSendMessage} />
+      <div style={{height:"75%"}} className="">
+      </div>
+      <div style={{background:"rgba(217, 217, 217, 1)",borderRadius:"5px"}} className="h-14">
       </div>
     </div>
   );
 };
-
+ 
 export default ChatBox;
