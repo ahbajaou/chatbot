@@ -6,6 +6,13 @@ import { IoArrowBackCircle } from "react-icons/io5";
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+import MyLogo from './assets/myapplogo.png'
+import { Helmet } from 'react-helmet';
+//  import ''
+
+import './App.css';
+
+
 const genAI = new GoogleGenerativeAI("AIzaSyDD56rQG--mtY8kLabEo-usxWNRj7Ijflk");
 
 const generateAIResponse = async (userInput) => {
@@ -20,20 +27,6 @@ const generateAIResponse = async (userInput) => {
   }
 };
 
-
-// Simulated bot responses
-// const getBotResponse = (userMessage) => {
-//   // const responses = {
-//   //   'hi': "Hello! How can I help you today?",
-//   //   'hello': "Hi there! What would you like to chat about?",
-//   //   'how are you': "I'm doing great, thanks for asking!",
-//   //   'default': "I'm not sure how to respond to that. Could you try again?"
-//   // };
-
-//   const lowerMessage = userMessage.toLowerCase();
-//   return responses[lowerMessage] || responses['default'];
-// };
-
 const TypingIndicator = () => (
   <div className="flex items-center">
     <span>Typing</span>
@@ -47,7 +40,7 @@ const ChatApp = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -70,15 +63,21 @@ const ChatApp = () => {
     setMessages((prevMessages) => [...prevMessages, newBotMessage]);
     
   };
-  
+  const backtoStart = () => {
+    setIsLogin(false);
 
-  return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+  }
+  const handleSkep = () => {
+    setIsLogin(true);
+  }
+  if (isLogin){
+    return (
+      <div className="min-h-screen bg-gray-100 flex flex-col">
       <div className="flex-grow container mx-auto max-w-md p-4">
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <div className="p-4 bg-white text-white">
             <div className="h-14 rounded-lg p-2 flex justify-between items-center" style={{background: 'rgba(217, 217, 217, 1)'}}>
-                <IoArrowBackCircle className="text-blue-500 text-3xl hover:text-gray-900 transition-transform duration-300 transform hover:scale-110"/>
+                <IoArrowBackCircle onClick={backtoStart} className="text-blue-500 text-3xl hover:text-gray-900 transition-transform duration-300 transform hover:scale-110"/>
                 <span className="text-lg text-gray-900 font-bold">LingoPal</span>
                 <div className="w-8 "></div>
             </div>
@@ -102,7 +101,6 @@ const ChatApp = () => {
                 </div>
               )}
           </div>
-
           <div className="p-4 border-t flex">
             <input 
               type="text"
@@ -122,6 +120,32 @@ const ChatApp = () => {
         </div>
       </div>
     </div>
+    )
+  }
+  return (
+    
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      <Helmet>
+          <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
+      </Helmet>
+        <div className="flex-grow container mx-auto max-w-md p-4" style={{background:"rgba(172, 222, 255, 1)"}}>
+          <div className='flex flex-col items-center justify-center max-w-md'>
+              <img
+              src={MyLogo}
+              alt=""
+              style={{ width: "500px" }}
+              className=''
+              />
+              <h1 className='text-5xl text-center'>                
+                Welcom to <span className='font-jua' style={{color:"rgba(229, 135, 49, 1)"}}>LingoPal</span>
+              </h1>
+              <p className='mt-2'>
+                Learn English, one chat at a time.
+              </p>
+            <button onClick={handleSkep} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10">Start</button>
+            </div>
+        </div>
+    </div>
   );
 };
 
@@ -130,10 +154,11 @@ const ChatApp = () => {
 const App = () => {
   return (
     <div className="App">
-      {/* <ChatBox /> */}
       <ChatApp/>
     </div>
   );
 };
 
 export default App;
+
+

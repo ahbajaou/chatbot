@@ -1,6 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* styles.css or App.css */
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+.font-jua {
+  font-family: 'Jua', sans-serif;
+  color: red;
+}
+
 
 .App{
   /* width: 100dvw; */
