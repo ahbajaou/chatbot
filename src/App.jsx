@@ -15,24 +15,54 @@ import './App.css';
 
 const genAI = new GoogleGenerativeAI("AIzaSyDD56rQG--mtY8kLabEo-usxWNRj7Ijflk");
 
-const generateAIResponse = async (userInput) => {
+let conversationHistory = "";  // Store the conversation history
+
+const generateAIResponse = async (userInput, userLevel = "Beginner") => {
   try {
+    // Initialize the generative model
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Define the teaching context
-    const teacherPrompt = `
-      You are an English teacher. Your job is to help users improve their English skills through clear explanations, grammar tips, vocabulary building, and examples. 
-      Provide detailed responses and encourage questions.
+    // Teaching context with modularity
+    const teachingContext = `
+      You are a skilled English teacher. Your job is to:
+      1. Correct grammar mistakes.
+      2. Explain difficult concepts clearly.
+      3. Introduce new vocabulary with examples.
+      4. Answer questions patiently and encourage interaction.
+      Tailor your response based on the user's level: Beginner, Intermediate, or Advanced.
     `;
-    // Combine the context with the user input
-    const result = await model.generateContent(`${teacherPrompt}\nUser: ${userInput}`);
+
+    // Adjust tone or difficulty dynamically
+    const toneAdjustment = userLevel === "Beginner"
+      ? "Use simple sentences and provide step-by-step explanations."
+      : userLevel === "Intermediate"
+      ? "Provide more nuanced details and intermediate vocabulary."
+      : "Use advanced terms and assume a higher level of understanding.";
+
+    // Combine the teacher prompt with the user's input and previous conversation
+    const completePrompt = `
+      ${teachingContext}
+      Level: ${userLevel}
+      Additional Notes: ${toneAdjustment}
+      Conversation History: ${conversationHistory}
+      User: ${userInput}
+    `;
+
+    // Generate content
+    const result = await model.generateContent(completePrompt);
     const generatedText = result.response; // Adjust based on actual response structure
+
+    // Update conversation history
+    conversationHistory += `User: ${userInput}\nAI: ${generatedText}\n`;
+
     return generatedText;
   } catch (error) {
     console.error("Error generating content:", error);
-    return "I'm sorry, I couldn't process that.";
+    return "I'm sorry, I couldn't process that. Please try again.";
   }
 };
+
+
 
 
 const TypingIndicator = () => (
@@ -61,14 +91,16 @@ const ChatApp = () => {
   
     const aiResponse = await generateAIResponse(inputMessage);
     setIsTyping(false)
-    console.log(aiResponse)
+    console.log("----------------> :" + aiResponse)
     // const aiResponse = JSON.parse(aiResponse);
 
 // Navigate through the object to extract the desired text
-    const extractedText = aiResponse.candidates[0].content.parts[0].text;
+// if (aiResponse.candidates[0].content.parts[0].text){
+  const extractedText = aiResponse.candidates[0].content.parts[0].text;
+  const newBotMessage = { text: extractedText, sender: 'bot' };
+  setMessages((prevMessages) => [...prevMessages, newBotMessage]);
+// }
     // const sanitizedResponse = typeof extractedText === 'string' ? extractedText : JSON.stringify(extractedText);
-    const newBotMessage = { text: extractedText, sender: 'bot' };
-    setMessages((prevMessages) => [...prevMessages, newBotMessage]);
     
   };
   const backtoStart = () => {
@@ -90,26 +122,30 @@ const ChatApp = () => {
                 <div className="w-8 "></div>
             </div>
           </div>
-          <div className="h-[30rem] bg-gray-100 overflow-y-auto p-4">
-            {messages.map((msg, index) => (
-              <div 
-              key={index} 
-              
-              className={`mb-2 p-2 rounded-lg max-w-[80%] flex items-start gap-2
-                ${msg.sender === 'user' 
-                  ? 'bg-blue-500 text-white ml-auto' 
-                  : 'bg-gray-200 text-black mr-auto'}`}
-                  >
-            {msg.sender === 'bot' && (
-                <img 
-                  src={MyLogo} 
-                  alt="Bot logo" 
-                  className="w-8 h-8 rounded-full object-cover" // Adjust dimensions here
-                />
-              )}
-              <span>{msg.text}</span>
-            </div>
-            ))}
+          
+          <div className="h-[30rem] bg-gray-100 overflow-y-auto p-4 flex flex-col">
+          {messages.map((msg, index) => (
+              <div key={index} className="mb-2 flex items-start gap-2">
+                    {msg.sender === 'bot' && (
+                        <div className="w-8 h-8 rounded-full bg-blue-500 shadow-md flex items-center justify-center">
+                          <img
+                            src={MyLogo}
+                            alt="Bot logo"
+                            className="w-6 h-6 rounded-full object-cover"
+                          />
+                        </div>
+                    )}
+                    <div
+                      className={`p-2 rounded-lg max-w-[80%] ${
+                        msg.sender === 'user'
+                          ? 'bg-blue-500 text-white ml-auto'
+                          : 'bg-gray-200 text-black mr-auto'
+                      }`}
+                    >
+                      <span>{msg.text}</span>
+                    </div>
+                </div>
+                ))}
               {isTyping && (
                 <div className="mb-2 p-2  rounded-lg max-w-[80%] bg-white text-black mr-auto">
                   <TypingIndicator />
