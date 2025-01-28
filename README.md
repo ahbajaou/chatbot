@@ -40,5 +40,4 @@ Design: Crafted with care using Figma for a modern and intuitive interface.
 🚀 Purpose
 This project aims to bridge the language gap by enabling Arabic speakers to learn English effortlessly, focusing on real-life conversational skills and contextual learning. Whether you're preparing for an interview, traveling, or enhancing your career opportunities, this app is your companion. 🤝
 
-![Screenshot from 2025-01-29 00-39-19](https://github.com/user-attachments/assets/b8d8a1ec-a622-403d-a754-23f2bec095ee)
-![Screenshot from 2025-01-29 00-39-06](https://github.com/user-attachments/assets/bcf23ec6-c562-426c-9019-095b4982f84f)
+![image alt](https://github.com/ahbajaou/chatbot/blob/dfe11f67e2fab243692c709d4326e434519669de/Desktop%20-%201.png)
