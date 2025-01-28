@@ -6,7 +6,7 @@ import { IoArrowBackCircle } from "react-icons/io5";
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-import MyLogo from './assets/myapplogo.png'
+import MyLogo from './assets/myapplogo1.png'
 import { Helmet } from 'react-helmet';
 //  import ''
 
@@ -18,7 +18,14 @@ const genAI = new GoogleGenerativeAI("AIzaSyDD56rQG--mtY8kLabEo-usxWNRj7Ijflk");
 const generateAIResponse = async (userInput) => {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(userInput);
+
+    // Define the teaching context
+    const teacherPrompt = `
+      You are an English teacher. Your job is to help users improve their English skills through clear explanations, grammar tips, vocabulary building, and examples. 
+      Provide detailed responses and encourage questions.
+    `;
+    // Combine the context with the user input
+    const result = await model.generateContent(`${teacherPrompt}\nUser: ${userInput}`);
     const generatedText = result.response; // Adjust based on actual response structure
     return generatedText;
   } catch (error) {
@@ -26,6 +33,7 @@ const generateAIResponse = async (userInput) => {
     return "I'm sorry, I couldn't process that.";
   }
 };
+
 
 const TypingIndicator = () => (
   <div className="flex items-center">
@@ -74,34 +82,41 @@ const ChatApp = () => {
     return (
       <div className="min-h-screen bg-gray-100 flex flex-col">
       <div className="flex-grow container mx-auto max-w-md p-4">
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <div className="p-4 bg-white text-white">
-            <div className="h-14 rounded-lg p-2 flex justify-between items-center" style={{background: 'rgba(217, 217, 217, 1)'}}>
-                <IoArrowBackCircle onClick={backtoStart} className="text-blue-500 text-3xl hover:text-gray-900 transition-transform duration-300 transform hover:scale-110"/>
-                <span className="text-lg text-gray-900 font-bold">LingoPal</span>
+        <div className="bg-white  overflow-hidden">
+          <div className="p-4 bg-gray-100 text-white overflow-hidden">
+            <div className="h-14 rounded-lg p-2 flex justify-between items-center" style={{background: 'rgba(37, 146, 253, 1)'}}>
+                <IoArrowBackCircle onClick={backtoStart} className="text-white text-3xl hover:text-gray-900 transition-transform duration-300 transform hover:scale-110"/>
+                <span className="text-lg text-white font-bold">LingoPal</span>
                 <div className="w-8 "></div>
             </div>
           </div>
-          
-          <div className="h-96 overflow-y-auto p-4">
+          <div className="h-[30rem] bg-gray-100 overflow-y-auto p-4">
             {messages.map((msg, index) => (
               <div 
-                key={index} 
-                className={`mb-2 p-2 rounded-lg max-w-[80%] 
-                  ${msg.sender === 'user' 
-                    ? 'bg-blue-500 text-white ml-auto' 
-                    : 'bg-gray-200 text-black mr-auto'}`}
-              >
-                {msg.text}
-              </div>
+              key={index} 
+              
+              className={`mb-2 p-2 rounded-lg max-w-[80%] flex items-start gap-2
+                ${msg.sender === 'user' 
+                  ? 'bg-blue-500 text-white ml-auto' 
+                  : 'bg-gray-200 text-black mr-auto'}`}
+                  >
+            {msg.sender === 'bot' && (
+                <img 
+                  src={MyLogo} 
+                  alt="Bot logo" 
+                  className="w-8 h-8 rounded-full object-cover" // Adjust dimensions here
+                />
+              )}
+              <span>{msg.text}</span>
+            </div>
             ))}
               {isTyping && (
-                <div className="mb-2 p-2 rounded-lg max-w-[80%] bg-white text-black mr-auto">
+                <div className="mb-2 p-2  rounded-lg max-w-[80%] bg-white text-black mr-auto">
                   <TypingIndicator />
                 </div>
               )}
           </div>
-          <div className="p-4 border-t flex">
+          <div className="p-4 border-t flex bg-gray-100">
             <input 
               type="text"
               value={inputMessage}
@@ -110,9 +125,10 @@ const ChatApp = () => {
               placeholder="Type a message..."
               className="flex-grow p-2 border rounded-l-lg"
             />
-            <button 
+            <button
               onClick={handleSendMessage}
-              className="bg-blue-500 text-white p-2 rounded-r-lg"
+              className=" text-white p-2 rounded-r-lg"
+              style={{background: 'rgba(37, 146, 253, 1)'}}
             >
               <Send size={20} />
             </button>
@@ -133,16 +149,16 @@ const ChatApp = () => {
               <img
               src={MyLogo}
               alt=""
-              style={{ width: "500px" }}
-              className=''
+              style={{ width: "200px" }}
+              className='mb-20'
               />
-              <h1 className='text-5xl text-center'>                
+              <h1 className='text-5xl text-center' style={{color:'rgba(0, 0, 0, 0.58)'}}>                
                 Welcom to <span className='font-jua' style={{color:"rgba(229, 135, 49, 1)"}}>LingoPal</span>
               </h1>
-              <p className='mt-2'>
+              <p className='mt-2' style={{color:'rgba(0, 0, 0, 0.58)'}}>
                 Learn English, one chat at a time.
               </p>
-            <button onClick={handleSkep} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10">Start</button>
+            <button style={{background: 'rgba(37, 146, 253, 1)'}} onClick={handleSkep} class="w-40 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10">Start</button>
             </div>
         </div>
     </div>
