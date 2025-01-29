@@ -1,24 +1,5 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 AI English Learning Chat App LingoPal 🧠💬
 
 Welcome to AI English Learning Chat App – an intelligent and interactive web application designed to help Arabic speakers learn English in a personalized and engaging way. 🌍📚
@@ -39,5 +20,14 @@ AI: Gemini API integrated for smart and human-like interactions.
 Design: Crafted with care using Figma for a modern and intuitive interface.
 🚀 Purpose
 This project aims to bridge the language gap by enabling Arabic speakers to learn English effortlessly, focusing on real-life conversational skills and contextual learning. Whether you're preparing for an interview, traveling, or enhancing your career opportunities, this app is your companion. 🤝
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+In the project directory, you can run:
 
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 ![image alt](https://github.com/ahbajaou/chatbot/blob/dfe11f67e2fab243692c709d4326e434519669de/Desktop%20-%201.png)
